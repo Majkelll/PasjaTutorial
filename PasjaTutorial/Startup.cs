@@ -33,6 +33,7 @@ namespace PasjaTutorial
             services.AddDbContext<RestaurantDbContext>();
             services.AddScoped<RestaurantSeeder>();
             services.AddScoped<IRestaurantServices, RestaurantServices>();
+            services.AddScoped<IDishService, DishService>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddSwaggerGen();
         }

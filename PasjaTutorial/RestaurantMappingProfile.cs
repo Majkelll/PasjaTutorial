@@ -10,9 +10,10 @@ namespace PasjaTutorial
             CreateMap<Restaurant, RestaurantDto>()
                 .ForMember(m => m.City, c => c.MapFrom(s => s.Address.City))
                 .ForMember(m => m.Street, c => c.MapFrom(s => s.Address.Street))
-                .ForMember(m => m.PostalCode, c => c.MapFrom(s => s.Address.PostalCode));
-
+                .ForMember(m => m.PostalCode, c => c.MapFrom(s => s.Address.PostalCode));    
+            
             CreateMap<Dish, DishDto>();
+            CreateMap<CreateDishDto, Dish>();
 
             CreateMap<CreateRestaurantDto, Restaurant>()
                 .ForMember(r => r.Address, c => c.MapFrom(dto => new Address()
