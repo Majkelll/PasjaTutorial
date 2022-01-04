@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.IIS.Core;
+﻿using Microsoft.AspNetCore.Http;
 using PasjaTutorial.Exceptions;
+using System;
+using System.Threading.Tasks;
 
 namespace PasjaTutorial.Middleware
 {
@@ -16,8 +15,13 @@ namespace PasjaTutorial.Middleware
             }
             catch (NotFoundException notFoundException)
             {
-                context.Response.StatusCode = 404;
+                context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(notFoundException.Message);
+            }
+            catch (BadRequestException badRequestException)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(badRequestException.Message);
             }
             catch (Exception e)
             {

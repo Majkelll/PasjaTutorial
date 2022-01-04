@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 namespace PasjaTutorial.Entities
 {
     public class RestaurantDbContext : DbContext
     {
-        private string _connectionString =
+        private readonly string _connectionString =
             "Server=(localdb)\\mssqllocaldb;Database=RestaurantDb2;Trusted_Connection=True;";
+
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Dish> Dishes { get; set; }

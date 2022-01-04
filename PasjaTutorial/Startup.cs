@@ -47,7 +47,8 @@ namespace PasjaTutorial
                 };
             });
 
-            services.AddAutoMapper(this.GetType().Assembly);
+            services.AddSingleton(authenticationSettings);
+            services.AddAutoMapper(GetType().Assembly);
             services.AddControllers().AddFluentValidation();
             services.AddDbContext<RestaurantDbContext>();
             services.AddScoped<RestaurantSeeder>();
@@ -64,12 +65,8 @@ namespace PasjaTutorial
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RestaurantSeeder seeder)
         {
-
             seeder.Seed();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
@@ -78,17 +75,11 @@ namespace PasjaTutorial
             app.UseHttpsRedirection();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant API");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant API"); });
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

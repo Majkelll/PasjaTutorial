@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using FluentValidation;
 using PasjaTutorial.Entities;
-using System.Linq;
 
 namespace PasjaTutorial.Models.Validators
 {
@@ -22,12 +22,8 @@ namespace PasjaTutorial.Models.Validators
                 .Custom((value, context) =>
                 {
                     var emailInUse = _dbContext.Users.Any(u => u.Email == value);
-                    if (emailInUse)
-                    {
-                        context.AddFailure("Email", "Email is taken");
-                    }
+                    if (emailInUse) context.AddFailure("Email", "Email is taken");
                 });
-
         }
     }
 }

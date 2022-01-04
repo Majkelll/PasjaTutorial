@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PasjaTutorial.Entities;
-using PasjaTutorial.Models;
-using System.Collections.Generic;
-using System.Linq;
 using PasjaTutorial.Exceptions;
+using PasjaTutorial.Models;
 
 namespace PasjaTutorial.Services
 {
@@ -21,6 +21,7 @@ namespace PasjaTutorial.Services
     {
         private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
+
         public RestaurantServices(RestaurantDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -30,15 +31,12 @@ namespace PasjaTutorial.Services
         public RestaurantDto GetById(int id)
         {
             var restaurant = _dbContext
-              .Restaurants
-              .Include(r => r.Address)
-              .Include(r => r.Dishes)
-              .FirstOrDefault(x => x.Id == id);
+                .Restaurants
+                .Include(r => r.Address)
+                .Include(r => r.Dishes)
+                .FirstOrDefault(x => x.Id == id);
 
-            if (restaurant is null)
-            {
-                throw new NotFoundException("Restaurant not found");
-            }
+            if (restaurant is null) throw new NotFoundException("Restaurant not found");
             var result = _mapper.Map<RestaurantDto>(restaurant);
             return result;
         }
@@ -79,7 +77,7 @@ namespace PasjaTutorial.Services
                 .Restaurants
                 .FirstOrDefault(x => x.Id == id);
 
-            if(restaurant is null) throw new NotFoundException("Restaurant not found");
+            if (restaurant is null) throw new NotFoundException("Restaurant not found");
 
             restaurant.Name = dto.Name;
             restaurant.Description = dto.Description;
